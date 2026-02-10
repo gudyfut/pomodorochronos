@@ -1,14 +1,27 @@
 // Importing global and theme styles, theme antes para carregar as variaveis temas primeiro
 import  './styles/theme.css';
 import  './styles/global.css';
+
 import { Container } from './components/Container';
+import { Heading } from './components/Heading';
+import { Logo } from './components/Logo';
+import { Menu } from './components/Menu';
+
 
 export function App() {
     
     return (
         <>
             <Container>
-                Lorem ipsum dolor, sit amet consectetur adipisicing elit. Ipsam harum laudantium, perferendis alias incidunt provident fuga soluta, est aspernatur libero omnis cumque dolor. Modi quisquam repudiandae veniam maxime incidunt quae.
+                <Logo />
+            </Container>
+
+            <Container>
+                <Menu />
+            </Container>
+            
+            <Container>
+                <Heading>Footer</Heading>
             </Container>
         </>
     );
