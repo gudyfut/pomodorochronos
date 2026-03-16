@@ -29,7 +29,7 @@ export function App() {
             </Container>
             
             <Container>
-                <Countdown/>
+                <Countdown />
             </Container> 
 
             <Container>
