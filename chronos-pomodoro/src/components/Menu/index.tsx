@@ -1,30 +1,47 @@
-import {HouseIcon, HistoryIcon, SettingsIcon, SunIcon} from 'lucide-react';
+import {HouseIcon, HistoryIcon, SettingsIcon, SunIcon, MoonIcon} from 'lucide-react';
 import styles from './styles.module.css';
+import { useState, useEffect } from 'react';
 
 type AvailableThemes = 'light' | 'dark';
 
 export function Menu() {
-    const [theme, setTheme] = React.useState<AvailableThemes>('dark');
+    const [theme, setTheme] = useState<AvailableThemes>(() => {
+        const savedTheme = localStorage.getItem('theme') as AvailableThemes | 'dark';
+        return savedTheme;
+    });
 
-    function handleThemeClick() {
+    function handleThemeClick( event: React.MouseEvent<HTMLAnchorElement, MouseEvent>) {
+        event.preventDefault();
         const newTheme = theme === 'light' ? 'dark' : 'light';
         setTheme(newTheme);
-        document.documentElement.setAttribute('data-theme', newTheme);
+    }
+
+    useEffect(() => {
+        document.documentElement.setAttribute('data-theme', theme);
+        localStorage.setItem('theme', theme);
+        return () => {
+            console.log('Cleaning up theme effect');
+        }
+    }, [theme]);
+
+    const nextThemeIcon = {
+        light: <MoonIcon/>,
+        dark: <SunIcon/>
     }
 
     return (
         <nav className={styles.menu}>
             <a className={styles.menuLink} href="#" aria-label="Ir para Home" title="Ir para Home">
-                <HouseIcon className={styles.icon} />
+                <HouseIcon/>
             </a>
             <a className={styles.menuLink} href="#" aria-label="Ver History" title="Ver History">
-                <HistoryIcon className={styles.icon} />
+                <HistoryIcon/>
             </a>
             <a className={styles.menuLink} href="#" aria-label="Settings" title="Settings">
-                <SettingsIcon className={styles.icon} />
+                <SettingsIcon/>
             </a>
-            <a className={styles.menuLink} href="#" aria-label="Mudar Theme" title="Mudar Theme" onClick={handleThemeClick}}>
-                <SunIcon className={styles.icon} />               
+            <a className={styles.menuLink} href="#" aria-label="Mudar Theme" title="Mudar Theme" onClick={handleThemeClick}>
+                {nextThemeIcon[theme]}              
             </a>
         </nav>
     );
